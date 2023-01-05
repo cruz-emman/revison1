@@ -15,8 +15,8 @@ const ProductList = ({products, category,singleProduct}) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() =>{
-    
-    const isAvailable = products.filter((product) => product.quantity !== 0 & product.quantity !== null)
+  
+    let isAvailable = products.filter((product) => product.quantity !== 0 & product.quantity !== null)
     let data = isAvailable.filter((item) =>{
       return (item?.seller_id?._id !== auth )       
     })
