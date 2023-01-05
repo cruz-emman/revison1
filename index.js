@@ -10,7 +10,6 @@ import path from 'path'
 const PORT = process.env.PORT || 5000
 
 const app = express()
-mongoose.set("strictQuery", false);
 
 const dbConnect = async () =>{
     try {
@@ -33,10 +32,10 @@ app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 
 const __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 app.get("*",(req,res) => {
     etag: false
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, './client/build/index.html'));
 })
 
 
