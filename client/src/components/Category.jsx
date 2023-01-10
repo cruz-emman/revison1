@@ -19,7 +19,6 @@ import  SLCN from '../assets/logos/SLCN.png'
 import  CMT from '../assets/logos/CMT.jpg'
 
 const Category = () => {
-  const theme = useTheme();
 
   const [topDepartment,setTopDepartment] = useState()
   const [topDepartmentImage,setTopDepartmentImage] = useState()
@@ -35,14 +34,11 @@ const Category = () => {
   useEffect(() =>{
     const getTotalDepartments = async () =>{
       try {
-        const res = await publicRequest.get(`/order/`)
-        res.data.map((list) => {          
-          list.products.map((product) =>{
-            setTopProductCategoryImage(product.productId.img)
-          })
-        })
-
-
+        let res = await publicRequest.get(`/cart/`)
+        let imageData = res.data[res.data.length - 1]
+        
+        let latestImage = imageData.productId.img
+        setTopProductCategoryImage(latestImage)
         setLoading(false)
       } catch (error) {
         
@@ -56,7 +52,7 @@ const Category = () => {
    
     const getTopDepartment = async () =>{ 
       try {
-        const res = await publicRequest.get(`/order/departments`)
+        const res = await publicRequest.get(`/cart/departments`)
         const topDept = res.data[0]?.category
         setTopDepartment(topDept)
 
@@ -91,21 +87,21 @@ const Category = () => {
   },[setTopDepartment,setTopDepartmentImage, setTopProductCategory, setTopProductCategoryImage])
 
 
+
   useEffect(() =>{
+    const getTopCategories = async () =>{
+      try {
+        let res = await publicRequest.get('/cart/categories')
+        let topCategory = res.data[0].category
+        setTopProductCategory(topCategory)
+        setLoading(false)
 
-    const getTopProductCategory = async ()  => {
-      const res = await publicRequest.get(`/order/categories`)
-      const topCategory = res.data[0]?.category
-      setTopProductCategory(topCategory)
-
-
-      
-      setLoading(false)
-    } 
-    getTopProductCategory()
-
+      } catch (error) {
+        
+      }
+    }
+    getTopCategories()
   },[setTopDepartment,setTopDepartmentImage, setTopProductCategory, setTopProductCategoryImage])
-
 
   return (
     <>
@@ -143,7 +139,8 @@ const Category = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flex: '1 0 auto' }}>
               <Typography component="div" sx={{typography: {xs: 'h5', md: 'h3'}}}>
-                {topProductCategory}
+              {topProductCategory}
+
                 </Typography>
                 <Typography sx={{typography: {xs: 'caption', md: 'subtitle1'}}} color="text.secondary" component="div">
                   Trend products by category
@@ -154,6 +151,7 @@ const Category = () => {
               component="img"
               sx={{ width: {xs: 80, md: 151} }}
               image={topProductCategoryImage}
+
             />          
           </Card>
         </Box>

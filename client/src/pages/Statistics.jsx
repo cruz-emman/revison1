@@ -2,10 +2,11 @@ import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, Tab
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import React from 'react'
 import dayjs from 'dayjs';
-
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -30,6 +31,7 @@ const Statistics = () => {
     const [orderStats, setOrderStats] = useState([])
     const [executing, setExecuting] = useState(false);
 
+    const [cancelTransactions, setCancelTransactions] = useState([])
     const [value, setValue] = useState('1')
 
     const handleChangeTab = (e, newValue) =>{
@@ -42,7 +44,7 @@ const Statistics = () => {
     const statusColor={
         complete:'lime',
         pending:'yellow',
-        initiate:'blue',
+        canceled:'red',
         }
 
         
@@ -105,8 +107,12 @@ const Statistics = () => {
         const getStats = async () =>{
           
             try {
-                const res = await userRequest.get(`/cart/recentTransaction/${id}`)
-                setRecentTransaction(res.data)
+                let res = await userRequest.get(`/cart/recentTransaction/${id}`)
+                let cancelledOrder = res.data.filter((cancel) => cancel.canceled !== true)
+                let listOfCancelledOrder = res.data.filter((cancel) => cancel.canceled === true)
+                console.log(listOfCancelledOrder)
+                setRecentTransaction(cancelledOrder)
+                setCancelTransactions(listOfCancelledOrder)
                 setLoading(false)
             } catch (error) {
                 console.log({error: error.message})
@@ -127,9 +133,9 @@ const [spentStats,setSpentStats] = useState()
 
 useEffect(() =>{
    const getRecentSpent = async () =>{
-        const res = await publicRequest.get(`/cart/recentBuy/${id}`)
-        console.log(res.data)
-        setRecentSpentTransaction(res.data)
+        let res = await publicRequest.get(`/cart/recentBuy/${id}`)
+        let completedOrder = res.data.filter((d) => d.status === 'complete')
+        setRecentSpentTransaction(completedOrder)
         setLoading(false)
     }
    getRecentSpent()
@@ -153,13 +159,13 @@ useEffect(() =>{
         const res = await publicRequest.get(`/cart/find/${e}`)
         const orderQuantity = res.data.quantity
         const product = res.data.productId
-        const itemId = product?.productId
-
         const getProduct = await userRequest.get(`/products/find/${product}`)
         const stockQuantity = getProduct?.data.quantity
-        console.log(orderQuantity, stockQuantity)
         await userRequest.put(`/products/${product}`, {quantity: (stockQuantity - stockQuantity) + (stockQuantity + orderQuantity)})
-        await userRequest.delete(`/cart/${e}`)
+        await publicRequest.put(`/cart/${e}`,{
+            canceled: true,
+            status: 'canceled'
+        })
         navigate(0);
 
        } catch (error) {
@@ -208,9 +214,10 @@ useEffect(() =>{
             <Box sx={{ width: '100%', typography: 'body1', marginTop: 5}}>
                 <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList size="large" onChange={handleChangeTab} aria-label="lab API tabs example" textColor={value === "1" ? "primary" : "secondary"} indicatorColor={value === "1" ? "primary" : "secondary"}centered>
-                    <Tab label="Income" value="1" />
-                    <Tab label="Spent" value="2" />
+                    <TabList size="large" onChange={handleChangeTab} aria-label="lab API tabs example" centered>
+                    <Tab icon={<StackedLineChartIcon />}  iconPosition="start" label="Income" value="1" />
+                    <Tab icon={<TrendingDownIcon />} textColor="secondary" iconPosition="start"  label="Spent" value="2" />
+                    <Tab icon={<CancelPresentationIcon />} iconPosition="start"  label="Cancelled" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -300,6 +307,33 @@ useEffect(() =>{
                                 <DataGrid sx={{height: '800px', padding: "20px"}}
                                 {...recentSpentTransaction}
                                 rows={loading ? []: recentSpentTransaction}
+                                getRowId={(row) => row._id}
+                                columns={buyerColumn}
+                                components={{ Toolbar: GridToolbar }}
+                                rowsPerPageOptions={[10]}
+                                componentsProps={{
+                                    toolbar: {
+                                    showQuickFilter: true,
+                                    quickFilterProps: { debounceMs: 500 },
+                                    },
+                                }}
+                                />
+                            </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                </TabPanel>
+
+                <TabPanel value="3">
+                <Box sx={{display:'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column', marginTop: {xs: 0, md: 10}}}>
+
+                    <Box sx={{marginTop: 10, width: '100%', display:'flex', justifyContent: 'center', flexDirection: 'column'}}>
+                        <Typography variant="h4" sx={{fontWeight: 600, color: '#9e9e9e', textAlign: 'start'}}>Cancelled Transactions</Typography>
+                            <Box>
+                            <Box mt={5}>
+                                <DataGrid sx={{height: '800px', padding: "20px"}}
+                                {...cancelTransactions}
+                                rows={loading ? []: cancelTransactions}
                                 getRowId={(row) => row._id}
                                 columns={buyerColumn}
                                 components={{ Toolbar: GridToolbar }}

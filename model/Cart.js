@@ -9,7 +9,8 @@ const CartSchema = new mongoose.Schema({
     TotalAmount: {type: Number},
     quantity: {type: Number },
     status: {type:String, default: "pending"},
-    ordered: {type: String, default: false}
+    ordered: {type: String, default: false},
+    canceled: {type: Boolean, default: false}
 
 
 }, {timestamps: true}

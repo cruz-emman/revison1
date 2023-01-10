@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 const statusColor={
     complete:'lime',
     pending:'yellow',
-    initiate:'blue',
+    canceled:'orangered',
     }
 export const sellerColumn = [
     {field: '_id', headerName: "Order ID", width: 250},

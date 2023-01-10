@@ -36,7 +36,7 @@ const SearchProduct = () => {
 
   return (
     <Box>
-      <Navbar />
+    
       {loading ?
           <BeatLoader 
               color="#36d7b7" 
@@ -46,9 +46,10 @@ const SearchProduct = () => {
               data-testid="loader"
             />
         :
-        <>
+        <Box>
+          <Navbar />
         <ProductList products={products} />
-        </>
+        </Box>
       }
     </Box>
   )

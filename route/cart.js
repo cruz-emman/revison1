@@ -56,7 +56,9 @@ router.post("/", async (req, res) => {
   
   router.get("/", async (req, res) => {
     try {
-      const carts = await Cart.find();
+      const carts = await Cart.find().populate([{
+        path: 'productId', select: 'img'
+      }]).exec();
       res.status(200).json(carts);
     } catch (err) {
       res.status(500).json(err);
@@ -192,4 +194,87 @@ router.get('/recentBuy/:id', async (req,res) =>{
     console.log({message: error.message});
   }
 })
+
+//top categories
+router.get('/categories', async (req, res) => {
+    
+  try {
+    const cart = await Cart.aggregate([
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'productId',
+          foreignField: '_id',
+          as: 'product'
+        }
+      },
+      {
+        $unwind: '$product'
+      },
+      {
+        $group: {
+          _id: "$product.productCategory",
+          total: {
+            $sum: 1
+          }
+        }
+      },
+      {
+        $sort: {total: -1}
+      },      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          total: 1
+        }
+      },
+    ])
+    res.status(200).json(cart);     
+
+  } catch (error) { 
+    res.status(500).json({error: error.message})
+  }
+})
+
+router.get('/departments', async (req, res) => {
+    
+  try {
+    const cart = await Cart.aggregate([
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'productId',
+          foreignField: '_id',
+          as: 'product'
+        }
+      },
+      {
+        $unwind: '$product'
+      },
+      {
+        $group: {
+          _id: "$product.category",
+          total: {
+            $sum: 1
+          }
+        }
+      },
+      {
+        $sort: {total: -1}
+      },      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          total: 1
+        }
+      },
+    ])
+    res.status(200).json(cart);     
+
+  } catch (error) { 
+    res.status(500).json({error: error.message})
+  }
+})
+
+
   export default router

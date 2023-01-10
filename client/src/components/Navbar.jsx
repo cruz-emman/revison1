@@ -281,21 +281,7 @@ const Navbar = () => {
                         </Typography>
                     </Link>
 
-                    <Typography variant="subtitle2" 
-                        fontWeight={700}
-                        sx={{textTransform: "capitalize", 
-                            ':hover': {
-                            color: '#00e676'
-                            },
-                            color: '#424242',
-                            cursor: 'pointer',
-                            marginRight: '5px'
-                        }}
-                        onClick={handleClickListItem}
-                        >
-                        Department  
-                        </Typography>
-                        {open ? <ExpandLess /> : <ExpandMore />}
+                    
 
                 <Menu
                     id="lock-menu"
