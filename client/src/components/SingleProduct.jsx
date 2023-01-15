@@ -66,7 +66,7 @@ const SingleProduct = ({singleProduct, quantity, setQuantity}) => {
                         <Typography variant="body1" fontWeight={700} color="#212121">{singleProduct.seller_id?.studentId}</Typography>
                         <Typography variant="body1" fontWeight={700} color="#212121">{singleProduct.seller_id?.department}</Typography>
                         <Typography variant="body1" fontWeight={700} color="#212121">{(singleProduct.quantity - quantity)}</Typography>
-                        <Typography variant="body1" fontWeight={700} color="#212121">{singleProduct.seller_id?.contactNumber}</Typography>
+                        <Typography variant="body1" fontWeight={700} color="#212121">+63{singleProduct.seller_id?.contactNumber}</Typography>
 
                         <Typography variant="body1" fontWeight={700} color="#212121"
                          sx={{overflowWrap: 'break-word', width: {xs: 150, md: '100%'}}}>{singleProduct.description}</Typography>

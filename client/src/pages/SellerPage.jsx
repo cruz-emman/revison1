@@ -72,7 +72,7 @@ const SellerPage = () => {
               <Box sx={{dispay: 'flex'}}>
                 <Typography variant="h5" sx={{fontWeight: 700}}>{sellerInfo?.firstname} {sellerInfo?.lastname}</Typography>
                 <Typography variant="h6" color="text.secondary">{sellerInfo?.studentId} </Typography>
-                <Typography variant="h6" color="text.secondary">{sellerInfo?.contactNumber} </Typography>
+                <Typography variant="h6" color="text.secondary">+63{sellerInfo?.contactNumber} </Typography>
                 <Typography variant="h6" color="text.secondary">{sellerInfo?.department} </Typography>
               </Box>
             </Grid>
