@@ -158,7 +158,6 @@ const Category = () => {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{textAlign:'center', paddingY: '40px', textTransform: 'uppercase', fontWeight: 600, color: '#757575'}}>Courses</Typography>
-
         <Box sx={{display: 'flex', justifyContent: 'space-evenly', alingItems:'center', flexWrap: 'wrap', marginX: {xs: '20px', md: '0px'}, gap: 2, padding: {xs: 2, md: 4},  boxShadow: 2, marginY: 2 }}>
           {itemTables.map((data) => (
             <Link to={data.to} key={data.id}>
@@ -174,7 +173,6 @@ const Category = () => {
                   </Link>
             ))}
         </Box>
-
       </Container>
     </Box>
      )}

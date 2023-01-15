@@ -7,9 +7,9 @@ import jwt from 'jsonwebtoken'
 
 //REGISTER
 router.post("/register", async (req,res) =>{
-    const {firstname, middlename, lastname, email, password,department,  studentId} = req.body
+    const {firstname, middlename, lastname, email, password,department,  studentId, contactNumber} = req.body
 
-    if(!firstname | !department | !lastname | !email | !password | !studentId){
+    if(!firstname | !department | !lastname | !email | !password | !studentId | !contactNumber){
         res.status(400).json("Please add all fields")
     }else{
         try {
@@ -20,6 +20,8 @@ router.post("/register", async (req,res) =>{
                 department :req.body.department,
                 email :req.body.email,
                 studentId :req.body.studentId,
+                contactNumber: req.body.contactNumber,
+                
                 password : CryptoJS.AES.encrypt(req.body.password, 
                             'admin1223')
                             .toString(),
