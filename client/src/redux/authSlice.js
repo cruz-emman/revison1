@@ -50,7 +50,7 @@ export const authSlice = createSlice({
             state.isStatus = false;
             state.isSuccess = true;
             state.currentUser = action.payload;
-            state.isMessage = "Account is still pending...";
+            state.isMessage = "Account is still pending, we sent you an email!";
         },
         loginFailure: (state) =>{
             state.isSuccess = false;

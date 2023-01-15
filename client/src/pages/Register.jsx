@@ -18,6 +18,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const ID_REGEX = /^[0-9]{10}$/;
 const CONTACT_REGEX = /^[0-9]{1,10}$/;
+const validEmail = /^[a-zA-Z0-9._-]+@tua\.edu\.ph$/
 
 const Register = () => {
   const {isError, isSuccess} = useSelector((state) =>  state.auth)
@@ -35,7 +36,7 @@ const Register = () => {
 
   useEffect(() =>{
       if(isSuccess){
-        toast.success("Successfully created")
+        toast.success("Successfully created, please check your email!")
         setTimeout(() =>{
           navigate('/login')
         }, "1000")
@@ -129,7 +130,7 @@ const Register = () => {
                             fullWidth
                             type="email"
                             autoComplete='email'
-                            {...register('email', {required: "Required", pattern: { message: "It should be a valid email address!" }})}
+                            {...register('email', {required: "Required", pattern: {value: validEmail, message: "It should be a valid email address!" }})}
                             error={!!errors?.email}
                             helperText={errors?.email ?errors.email.message: null}
                         />

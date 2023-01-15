@@ -16,7 +16,7 @@ import { toast } from 'react-toastify'
 import BeatLoader from "react-spinners/BeatLoader";
 import emailjs from '@emailjs/browser';
 import axios from 'axios'
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useEffect } from 'react'
 import { current } from '@reduxjs/toolkit';
@@ -113,7 +113,6 @@ const Cart = () => {
 
     const sendEmail  = (e) =>{
         e.preventDefault()
-        console.log("Submit")
         emailjs.sendForm('gmail','template_v9cfyxa', form.current,'Qzg9HMQGgYrGO_WPM')
         .then((result) =>{
           console.log("Success", result.status, result.text)
@@ -167,7 +166,10 @@ const Cart = () => {
         />
           ):(
             <Box mt={7}>
-            <Typography fontWeight={600} color="text.secondary" variant="h3">Shopping Cart</Typography>
+                <Link style={{textDecoration: 'none'}} to="/">
+                    <Button variant="outlined" startIcon={<ArrowBackIcon />}>Continue Shopping</Button>
+                </Link>
+            <Typography mt={5} fontWeight={600} color="text.secondary" variant="h3">Shopping Cart</Typography>
 
                     <TableContainer>
                         <Table>

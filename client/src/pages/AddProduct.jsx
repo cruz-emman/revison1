@@ -125,7 +125,10 @@ useEffect(() =>{
   if(isSuccess){
     toast.success(isMessage)  
     navigate('/')
+    
   }
+  dispatch(resetStateProduct())
+
 },[dispatch, isSuccess])
 
   const handleClick = async (e) =>{
@@ -198,10 +201,10 @@ useEffect(() =>{
                       onChange={(e) => setItemName({...itemName, price: e.target.value })}
                       fullWidth name="price" />
                 <TextField variant="outlined" label="Quantity" 
-                    onChange={(e) => setItemName({...itemName, quantity: e.target.value > 20 ? e.target.value = 20 : e.target.value})} 
+                    onChange={(e) => setItemName({...itemName, quantity: e.target.value > 99 ? e.target.value = 99 : e.target.value})} 
                     fullWidth name="quantity"
                     type="number"
-                    placeholder='Maximum limit of 20'  
+                    placeholder='Product quantity'  
                     required
                     pattern="^-?[0-9]\d*\.?\d*$"
                     />

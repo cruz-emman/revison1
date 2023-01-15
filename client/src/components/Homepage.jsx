@@ -10,10 +10,25 @@ import { useState } from 'react'
 
 const Homepage = () => {
 
+  const [header, setHeader] = useState()
+  const [loading, setLoading ] = useState(true)
+useEffect(() =>{
+  const getHeader = async () =>{
+    try {
+      const res = await publicRequest.get('/header')
+      let updatedImage = res.data[res.data.length - 1]
+      setHeader(updatedImage.headerImage)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  getHeader()
+},[setHeader,setLoading])
 
   return (
     <Box sx={{width:'100%', height: {xs:'0', md: '600px'}, marginTop: {xs: '0px', md: '30px'}, display: 'flex'}}>
-      <Box component="img" src={banner} sx={{width: {xs: '100%', md: '100%'}, height: {xs: '100%', md: '100%'},objectFit: {xs: 'contain', md: 'cover'}, filter: 'brigtness(50%)'}} />
+      <Box component="img" src={header ? header : banner} sx={{width: {xs: '100%', md: '100%'}, height: {xs: '100%', md: '100%'},objectFit: {xs: 'contain', md: 'cover'}, filter: 'brigtness(50%)'}} />
     </Box>
   )
 }

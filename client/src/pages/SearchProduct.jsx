@@ -20,8 +20,7 @@ const SearchProduct = () => {
        try {
          let res = await publicRequest.get(search ? `/products/search?searchQuery=${search}` : '/products/')
          let filterProduct = res.data.filter((item) => item?.seller_id !== auth)
-         console.log(filterProduct)
-        if(res.data.length === 0) {
+        if(filterProduct.length === 0) {
           res = await publicRequest.get('/products/');
        }
         setProducts(res.data)

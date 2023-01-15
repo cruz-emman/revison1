@@ -1,8 +1,7 @@
 import axios from "axios";
 
-//const BASE_URL = "http://191.96.57.97/api/";
-//const BASE_URL = "http://192.168.137.1:5000/api/"; 
-const BASE_URL = "https://finals-api-mern.onrender.com/api";
+const BASE_URL = "http://192.168.137.1:5001/api/";
+//const BASE_URL = "https://https://tua-ebenta.onrender.com/api";
 
   const user = JSON.parse(localStorage.getItem("persist:root"))?.auth;
   const currentUser = user && JSON.parse(user).currentUser;

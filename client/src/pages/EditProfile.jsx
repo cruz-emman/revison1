@@ -196,7 +196,7 @@ const EditProfile = () => {
                             label="Contact No."
                             fullWidth
                             type="text"
-                            {...register('contactNumber', {pattern: {value: CONTACT_REGEX,  message: "Please Enter your Student ID properly" }})}
+                            {...register('contactNumber', {pattern: {value: CONTACT_REGEX,  message: "Please Enter your contact number properly" }})}
                             error={!!errors?.contactNumber}
                             helperText={errors?.contactNumber ? errors.contactNumber.message: null}
                         />

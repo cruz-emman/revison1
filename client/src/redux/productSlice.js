@@ -12,7 +12,7 @@ export const productSlice = createSlice({
     },
     reducers: {
         resetStateProduct: (state) =>{
-          state.products =[];
+          state.products = [];
           state.productName = null;
           state.isSuccess = false;
           state.isFetching = false;
@@ -40,7 +40,6 @@ export const productSlice = createSlice({
           addProductSuccess: (state, action) => {
             state.isFetching = true
             state.isSuccess = true
-
             state.products.push(action.payload)
             state.isMessage = "Product Added!"
 

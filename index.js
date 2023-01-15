@@ -6,8 +6,9 @@ import userRouter from './route/user.js'
 import productRouter from './route/product.js'
 import cartRouter from './route/cart.js'
 import orderRouter from './route/order.js'
+import headerRouter from './route/header.js'
 import path from 'path'
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
+app.use('/api/header', headerRouter)
 
 const __dirname = path.resolve()
 app.use(express.static(path.join(__dirname, './client/build')));
